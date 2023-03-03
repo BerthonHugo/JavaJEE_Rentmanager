@@ -3,14 +3,17 @@ package com.epf.rentmanager.controller;
 
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.service.ClientService;
+import com.epf.rentmanager.service.VehiculeService;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class UtilisateursServlet extends HttpServlet {
+@WebServlet("/users")
+public class UtilisateursListServlet extends HttpServlet {
 
     private ClientService clientService = ClientService.getInstance();
 
@@ -19,11 +22,15 @@ public class UtilisateursServlet extends HttpServlet {
 
 
         try {
-            request.setAttribute("usersCount", this.clientService.getInstance().findAll());
+            request.setAttribute("users", this.clientService.getInstance().findAll());
         } catch (ServiceException e) {
             e.printStackTrace();
         }
 
-        this.getServletContext().getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/list.jsp").forward(request, response);
     }
+
+    private VehiculeService vehicleService = VehiculeService.getInstance();
+
+
 }

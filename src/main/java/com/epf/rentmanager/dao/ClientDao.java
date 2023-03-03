@@ -34,6 +34,7 @@ public class ClientDao {
 			stmt.setString(2, client.getPrenom());
 			stmt.setString(3, client.getMail());
 			stmt.setDate(4, Date.valueOf(client.getNaissance()));
+			stmt.execute();
 			ResultSet resultSet = stmt.getGeneratedKeys();
 			int id = 0;
 			if (resultSet.next()) {

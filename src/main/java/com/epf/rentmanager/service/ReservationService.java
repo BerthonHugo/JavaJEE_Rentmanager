@@ -38,7 +38,8 @@ public class ReservationService {
         try {
             return ReservationDao.getInstance().findAll();
         } catch (DaoException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new ServiceException("message");
         }
     }
 
@@ -46,7 +47,8 @@ public class ReservationService {
         try {
             return ReservationDao.getInstance().findById(id);
         } catch (DaoException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new ServiceException("message");
         }
     }
     public long count() throws ServiceException {

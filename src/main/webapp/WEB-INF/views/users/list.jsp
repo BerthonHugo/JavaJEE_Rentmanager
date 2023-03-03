@@ -31,15 +31,18 @@
                                     <th>Nom</th>
                                     <th>Prenom</th>
                                     <th>Email</th>
+                                    <th>Naissance</th>
                                     <th>Action</th>
                                 </tr>
                                 <tr>
-                                    <td>1.</td>
-                                    <td>John</td>
-                                    <td>Doe</td>
-                                    <td>john.doe@epf.fr</td>
+                                <c:forEach items="${users}" var="user">
+                                    <td>${user.id}.</td>
+                                    <td>${user.nom}.</td>
+                                    <td>${user.prenom}.</td>
+                                    <td>${user.mail}.</td>
+                                    <td>${user.naissance}.</td>
                                     <td>
-                                        <a class="btn btn-primary" href="${pageContext.request.contextPath}/users/details?id=1">
+                                        <a class="btn btn-primary" href="${pageContext.request.contextPath}/users/details?id=${user.id}">
                                         <i class="fa fa-play"></i>
                                         </a>
                                         <a class="btn btn-success disabled" href="#">
@@ -50,24 +53,7 @@
                                         </a>
                                     </td>
                                 </tr>
-
-                                <tr>
-                                    <td>2.</td>
-                                    <td>Jane</td>
-                                    <td>Doe</td>
-                                    <td>jane.doe@epf.fr</td>
-                                    <td>
-                                        <a class="btn btn-primary" href="${pageContext.request.contextPath}/users/details?id=2">
-                                            <i class="fa fa-play"></i>
-                                        </a>
-                                        <a class="btn btn-success disabled" href="#">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a class="btn btn-danger disabled" href="#">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                </c:forEach>
                             </table>
                         </div>
                         <!-- /.box-body -->

@@ -28,21 +28,23 @@ public class VehiculeDao {
 	
 	public long create(Vehicule vehicule) throws DaoException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-
 			PreparedStatement stmt = connection.prepareStatement(CREATE_VEHICLE_QUERY, Statement.RETURN_GENERATED_KEYS);
 
 			stmt.setString(1, vehicule.getConstructeur());
+			//stmt.setString(2, vehicule.getModele());
 			stmt.setInt(2, vehicule.getNb_places());
-
+			stmt.execute();
 			ResultSet rs = stmt.getGeneratedKeys();
 
 			int id = 0;
 			if (rs.next()) {
 				id = rs.getInt(1);
+				System.out.println(id);
 			}
 			return id;
 
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new DaoException("message");
 		}
 
@@ -71,6 +73,7 @@ public class VehiculeDao {
 
 			int vehicule_id = rs.getInt("id");
 			String constructeur = rs.getString("constructeur");
+			//String model = rs.getString("modele");
 			int nb_places = rs.getInt("nb_places");
 
 			return new Vehicule(vehicule_id,constructeur,nb_places);
@@ -89,9 +92,10 @@ public class VehiculeDao {
 			while (rs.next()){
 				int id = rs.getInt("id");
 				String constructeur = rs.getString("constructeur");
+				//String model = rs.getString("modele");
 				int nbPlaces = rs.getInt("nb_places");
 
-				vehicules.add(new Vehicule(id, constructeur, nbPlaces));
+				vehicules.add(new Vehicule(id, constructeur ,nbPlaces));
 			}
 
 		} catch (SQLException e) {

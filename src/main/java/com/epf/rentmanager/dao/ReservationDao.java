@@ -37,7 +37,7 @@ public class ReservationDao {
 			stmt.setInt(2, reservation.getvehicule_id());
 			stmt.setDate(3, Date.valueOf(reservation.getDebut()));
 			stmt.setDate(4, Date.valueOf(reservation.getFin()));
-
+			stmt.execute();
 			ResultSet resultSet = stmt.getGeneratedKeys();
 
 			int id = 0;
@@ -137,25 +137,27 @@ public class ReservationDao {
 	public List<Reservation> findAll() throws DaoException {
 		ArrayList<Reservation>array = new	ArrayList<Reservation>();
 		try (Connection connection = ConnectionManager.getConnection()) {
+			PreparedStatement pstmt = connection.prepareStatement(FIND_RESERVATIONS_QUERY);
+			ResultSet rs = pstmt.executeQuery();
 
-			PreparedStatement stmt = connection.prepareStatement(FIND_RESERVATIONS_QUERY);
-			ResultSet resultat = stmt.executeQuery();
-			while(resultat.next()){
-				int id = resultat.getInt("id");
-				int client_id = resultat.getInt("client_id");
-				int vehicule_id = resultat.getInt("vehicule_id");
-				LocalDate debut = resultat.getDate("debut").toLocalDate();
-				LocalDate fin = resultat.getDate("fin").toLocalDate();
+			while(rs.next()){
+				System.out.println(rs);
+				int id = rs.getInt("id");
+				int client_id = rs.getInt("client_id");
+				int vehicule_id = rs.getInt("vehicle_id");
+				LocalDate debut = rs.getDate("debut").toLocalDate();
+				LocalDate fin = rs.getDate("fin").toLocalDate();
 				array.add(new Reservation(id,client_id,vehicule_id,debut,fin));
-
 			}
 
+
+			System.out.println("test " + array);
 			return array;
 
 		} catch (SQLException e) {
-			throw new DaoException("Une erreur a eu lieu lors de la récupération des réservations");
+			e.printStackTrace();
 		}
-
+		return new ArrayList<>();
 	}
 
 	public long count() throws DaoException {

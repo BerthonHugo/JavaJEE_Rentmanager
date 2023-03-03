@@ -1,4 +1,7 @@
-com\epf\rentmanager\controller\ReservationsServlet.class
+com\epf\rentmanager\controller\ReservationCreateServlet.class
+com\epf\rentmanager\controller\UserCreateServlet.class
+com\epf\rentmanager\controller\ReservationsListServlet.class
 com\epf\rentmanager\service\ReservationService.class
-com\epf\rentmanager\controller\UtilisateursServlet.class
-com\epf\rentmanager\controller\VoituresServlet.class
+com\epf\rentmanager\controller\UtilisateursListServlet.class
+com\epf\rentmanager\controller\VehicleListServlet.class
+com\epf\rentmanager\controller\VehicleCreateServlet.class

@@ -35,13 +35,14 @@
                                     <th>Action</th>
                                 </tr>
                                 <tr>
-                                    <td>1.</td>
-                                    <td>Renault Clio</td>
-                                    <td>John Doe</td>
-                                    <td>10/01/2019</td>
-                                    <td>13/01/2019</td>
+                                <c:forEach items="${reservations}" var="reserv">
+                                    <td>${reserv.id}.</td>
+                                    <td>${reserv.vehicule_id}.</td>
+                                    <td>${reserv.client_id}.</td>
+                                    <td>${reserv.debut}.</td>
+                                    <td>${reserv.fin}.</td>
                                     <td>
-                                        <a class="btn btn-primary disabled" href="${pageContext.request.contextPath}/cars?id=1">
+                                        <a class="btn btn-primary disabled" href="${pageContext.request.contextPath}/cars?id=${reserv.id}">
                                             <i class="fa fa-play"></i>
                                         </a>
                                         <a class="btn btn-success disabled" href="#">
@@ -52,25 +53,7 @@
                                         </a>
                                     </td>
                                 </tr>
-
-                                <tr>
-                                    <td>2.</td>
-                                    <td>Citroen C2</td>
-                                    <td>Jane Doe</td>
-                                    <td>10/01/2019</td>
-                                    <td>13/01/2019</td>
-                                    <td>
-                                        <a class="btn btn-primary disabled" href="${pageContext.request.contextPath}/cars?id=2">
-                                            <i class="fa fa-play"></i>
-                                        </a>
-                                        <a class="btn btn-success disabled" href="#">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a class="btn btn-danger disabled" href="#">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                </c:forEach>
                             </table>
                         </div>
                         <!-- /.box-body -->

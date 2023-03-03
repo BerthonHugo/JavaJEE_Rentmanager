@@ -32,7 +32,11 @@ public class Reservation {
     public Reservation(Reservation reservation) {
     }
 
-    public Reservation(int id, int clientId, LocalDate debut, LocalDate fin) {
+    public Reservation(int clientId, int vehiculeId, LocalDate debut, LocalDate fin) {
+        this.client_id = clientId;
+        this.vehicule_id = vehiculeId;
+        this.debut = debut;
+        this.fin = fin;
     }
 
     //methods

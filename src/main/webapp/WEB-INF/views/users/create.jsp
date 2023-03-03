@@ -13,10 +13,11 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>
-                Utilisateurs
-            </h1>
-        </section>
+                    <h1>
+                        Utilisateur
+                        <a class="btn btn-primary" href="${pageContext.request.contextPath}/users">Retour</a>
+                    </h1>
+                </section>
 
         <!-- Main content -->
         <section class="content">
@@ -25,7 +26,7 @@
                     <!-- Horizontal Form -->
                     <div class="box">
                         <!-- form start -->
-                        <form class="form-horizontal" method="post" action="/users/create">
+                        <form class="form-horizontal" method="post"">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="last_name" class="col-sm-2 control-label">Nom</label>
@@ -46,6 +47,13 @@
 
                                     <div class="col-sm-10">
                                         <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="naissance" class="col-sm-2 control-label">Date of Birth</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="date" class="form-control" id="naissance" name="naissance" placeholder="Date of Birth">
                                     </div>
                                 </div>
                             </div>
