@@ -42,6 +42,14 @@ public class ReservationService {
             throw new ServiceException("message");
         }
     }
+    public List<Reservation> findResaByClientId(long clientId)throws ServiceException{
+        try {
+            return ReservationDao.getInstance().findResaByClientId(clientId);
+        } catch (DaoException e) {
+            e.printStackTrace();
+            throw new ServiceException("message");
+        }
+    }
 
     public Reservation findById(long id) throws ServiceException {
         try {
@@ -61,5 +69,12 @@ public class ReservationService {
     }
 
 
-
+    public long findResaCountByClientId(int id) throws ServiceException {
+        try {
+            return ReservationDao.getInstance().countByClientId(id);
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

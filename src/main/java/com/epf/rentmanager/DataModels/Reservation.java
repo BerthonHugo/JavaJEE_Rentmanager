@@ -22,15 +22,6 @@ public class Reservation {
         this.fin = fin;
     }
 
-    public Reservation(int id) {
-        this.id = id;
-    }
-
-    public Reservation() {
-    }
-
-    public Reservation(Reservation reservation) {
-    }
 
     public Reservation(int clientId, int vehiculeId, LocalDate debut, LocalDate fin) {
         this.client_id = clientId;

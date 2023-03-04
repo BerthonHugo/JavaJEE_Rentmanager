@@ -24,9 +24,15 @@ public class ReservationDao {
 	private static final String DELETE_RESERVATION_QUERY = "DELETE FROM Reservation WHERE id=?;";
 	private static final String FIND_RESERVATIONS_BY_CLIENT_QUERY = "SELECT id, vehicle_id, debut, fin FROM Reservation WHERE client_id=?;";
 	private static final String FIND_RESERVATIONS_BY_VEHICLE_QUERY = "SELECT id, client_id, debut, fin FROM Reservation WHERE vehicle_id=?;";
-	private static final String FIND_RESERVATIONS_QUERY = "SELECT id, client_id, vehicle_id, debut, fin FROM Reservation;";
+	private static final String FIND_RESERVATIONS_QUERY = "" +
+			"SELECT Reservation.id, Reservation.client_id, Reservation.vehicle_id, Reservation.debut, Reservation.fin, Client.nom, Client.prenom, Vehicle.constructeur " +
+			"FROM Reservation " +
+			"LEFT JOIN Vehicle ON Reservation.vehicle_id = Vehicle.id " +
+			"LEFT JOIN Client ON Reservation.client_id = Client.id " +
+			"ORDER BY debut;";
 	private static final String FIND_RESERVATION_QUERY = "SELECT id, client_id, vehicle_id, debut, fin FROM Reservation WHERE id=?;";
 	private static final String COUNT_RESERVATIONS_QUERY = "SELECT COUNT(id) AS reservationsCount FROM Reservation;";
+	private static final String COUNT_RESERVATIONS_BY_CLIENT_QUERY = "SELECT COUNT(id) AS reservationsCount FROM Reservation WHERE client_id=?;";
 		
 	public long create(Reservation reservation) throws DaoException {
 		try (Connection connection = ConnectionManager.getConnection()) {
@@ -100,14 +106,16 @@ public class ReservationDao {
 			while(resultat.next()){
 
 				int id = resultat.getInt("id");
-				int vehicule_id = resultat.getInt("vehicule_id");
+				int vehicule_id = resultat.getInt("vehicle_id");
 				LocalDate debut = resultat.getDate("debut").toLocalDate();
 				LocalDate fin = resultat.getDate("fin").toLocalDate();
-				array.add(new Reservation(id, vehicule_id, debut, fin));
+				array.add(new Reservation(id,0, vehicule_id, debut, fin));
 			}
+			System.out.println("Test " + array);
 			return array;
 
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new DaoException("Une erreur a eu lieu lors de la récupération de la réservation");
 		}
 	}
@@ -135,23 +143,27 @@ public class ReservationDao {
 	}
 
 	public List<Reservation> findAll() throws DaoException {
-		ArrayList<Reservation>array = new	ArrayList<Reservation>();
+		ArrayList<Reservation>array = new	ArrayList<>();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			PreparedStatement pstmt = connection.prepareStatement(FIND_RESERVATIONS_QUERY);
 			ResultSet rs = pstmt.executeQuery();
 
 			while(rs.next()){
-				System.out.println(rs);
 				int id = rs.getInt("id");
 				int client_id = rs.getInt("client_id");
 				int vehicule_id = rs.getInt("vehicle_id");
+				String nom = rs.getString("nom");
+				String prenom = rs.getString("prenom");
+				String constructeur = rs.getString("constructeur");
 				LocalDate debut = rs.getDate("debut").toLocalDate();
 				LocalDate fin = rs.getDate("fin").toLocalDate();
+				//new Reservation(id,client_id,vehicule_id,debut,fin),nom,prenom,constructeur;
+				//array.add(new ReservationStruct(new Reservation(id,client_id,vehicule_id,debut,fin),nom,prenom,constructeur));
 				array.add(new Reservation(id,client_id,vehicule_id,debut,fin));
 			}
 
 
-			System.out.println("test " + array);
+			//System.out.println("test " + array);
 			return array;
 
 		} catch (SQLException e) {
@@ -162,10 +174,8 @@ public class ReservationDao {
 
 	public long count() throws DaoException {
 		int reservationsCount = 1;
-		try {
-
-			Connection conn = ConnectionManager.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement(COUNT_RESERVATIONS_QUERY);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			PreparedStatement pstmt = connection.prepareStatement(COUNT_RESERVATIONS_QUERY);
 
 			ResultSet rs = pstmt.executeQuery();
 
@@ -179,4 +189,36 @@ public class ReservationDao {
 		}
 		return 0;
 	}
+
+	public long countByClientId(long clientId) throws DaoException {
+		int reservationsCount = 1;
+		try (Connection connection = ConnectionManager.getConnection()) {
+			PreparedStatement pstmt = connection.prepareStatement(COUNT_RESERVATIONS_BY_CLIENT_QUERY);
+			pstmt.setLong(1, clientId);
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				reservationsCount = rs.getInt(reservationsCount);
+			}
+
+			return reservationsCount;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+//	public class ReservationStruct{
+//		public Reservation reservation;
+//		public String nom;
+//		public String prenom;
+//		public String constructeur;
+//
+//		public ReservationStruct(Reservation reservation, String nom, String prenom, String constructeur) {
+//			this.reservation = reservation;
+//			this.nom = nom;
+//			this.prenom = prenom;
+//			this.constructeur = constructeur;
+//		}
+//	}
+
 }

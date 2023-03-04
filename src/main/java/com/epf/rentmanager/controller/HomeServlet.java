@@ -26,20 +26,13 @@ public class HomeServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		try {
-
 			request.setAttribute("usersCount", this.clientService.getInstance().count());
-
 			request.setAttribute("vehiculesCount", this.vehicleService.getInstance().count());
-
 			request.setAttribute("reservationsCount", this.reservationService.getInstance().count());
-
-
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
-
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);
 	}
 

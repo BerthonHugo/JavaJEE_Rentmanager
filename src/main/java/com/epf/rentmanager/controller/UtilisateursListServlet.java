@@ -1,9 +1,7 @@
 package com.epf.rentmanager.controller;
 
-
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.service.ClientService;
-import com.epf.rentmanager.service.VehiculeService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +14,6 @@ import java.io.IOException;
 public class UtilisateursListServlet extends HttpServlet {
 
     private ClientService clientService = ClientService.getInstance();
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -30,7 +27,6 @@ public class UtilisateursListServlet extends HttpServlet {
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/list.jsp").forward(request, response);
     }
 
-    private VehiculeService vehicleService = VehiculeService.getInstance();
 
 
 }
